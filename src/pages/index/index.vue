@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>这是首页</h1>
+    <h1 @click="show=true">这是首页</h1>
+    <van-image-preview v-model="show" :images="images" @change="onChange">
+      <template v-slot:index>{{ ' ' }}</template>
+  </van-image-preview>
   </div>
 </template>
 
@@ -12,7 +15,11 @@ export default {
   },
   data () {
     return {
-      
+      show: false,
+      index: 0,
+      images: [
+        'https://img.yzcdn.cn/vant/apple-2.jpg',
+      ],
     }
   },
   created () {
@@ -22,7 +29,9 @@ export default {
   },
   
   methods: {
-    
+    onChange(index) {
+      this.index = index;
+    },
   },
   beforeDestroy () {
     
