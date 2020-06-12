@@ -1,57 +1,61 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <div class="box" style="width: 10rem;height: 5rem;background: red"></div>
-    <div class="box" style="width: 200px;height: 200px;background: red"></div>
-    <van-button type="default" @click="showToast">默认按钮</van-button>
-    <van-button type="primary">主要按钮</van-button>
-    <van-button type="info">信息按钮</van-button>
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
-    <i class="iconfont iconqrcode"></i>
-    <van-icon name="chat-o" badge="99+" />
-    <div></div>
-    <van-icon name="chat-o" />
+    <transition :name="transitionName">
+      <router-view class="child-view"></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import {getPicList} from '@/apis/index.js'
-import {successToast} from '@/utils/toast.js'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data(){
+    return {
+      transitionName: 'slide-left'
+    }
   },
   created(){
     
   },
   methods: {
-    showToast(){
-      successToast('恭喜成功！', 2000, true)
-    }
+    
   }
 }
 </script>
 
 <style lang="less">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /*text-align: center;*/
+    // color: #2c3e50;
+    font-size:@normalFontSize;
+    font-family:PingFang SC;
+    font-weight: normal;
+    color:#333333;
 }
-body {
-  background: 'blue';
+
+</style>
+
+<style>
+
+.child-view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  transition: all .5s cubic-bezier(.55,0,.1,1);
+}
+.slide-left-enter, .slide-right-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(30px, 0);
+  transform: translate(30px, 0);
+}
+.slide-left-leave-active, .slide-right-enter {
+  opacity: 0;
+  -webkit-transform: translate(-30px, 0);
+  transform: translate(-30px, 0);
 }
 </style>

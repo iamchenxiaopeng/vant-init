@@ -1,16 +1,71 @@
-import index from '@/pages/index/index.vue'
 export default [
   {
     path: '/',
     name: 'home',
-    component: index
+    redirect: '/appointmentQueue',
+    meta: {
+      title: '首页'
+    }
+  },
+  //登录
+  {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/pages/Login.vue'),
+      meta: { title:'登录' },
+  },
+  //忘记密码
+  {
+      path: '/findPassword',
+      name: 'findPassword',
+      component: () => import('@/pages/FindPassword.vue'),
+      meta: { title:'忘记密码' },
+  },
+  //设置新密码
+  {
+      path: '/newPassword',
+      name: 'newPassword',
+      component: () => import('@/pages/NewPassword.vue'),
+      meta: { title:'设置新密码' },
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('@/pages/about/about.vue')
+    path: '/appointmentQueue',
+    name: 'appointmentQueue',
+    component: () => import('@/pages/appointmentQueue/appointmentQueue.vue'),
+    meta: {
+      title: '预约排队'
+    }
+  },
+  {
+    path: '/appointmentQueueitem',
+    name: 'appointmentQueueitem',
+    component: () => import('@/pages/appointmentQueue/appointmentQueueitem.vue'),
+    meta: {
+      title: '预约信息'
+    }
+  },
+  {
+    path: '/appointmentQueueDetail',
+    name: 'appointmentQueueDetail',
+    component: () => import('@/pages/appointmentQueue/appointmentQueueDetail.vue'),
+    meta: {
+      title: '预约详情'
+    }
+  },
+  {
+    path: '/sceneQueue',
+    name: 'sceneQueue',
+    component: () => import('@/pages/sceneQueue/sceneQueue.vue'),
+    meta: {
+      title: '现场排队'
+    }
+  },
+  {
+    path: '/queueRecord',
+    name: 'queueRecord',
+    component: () => import('@/pages/queueRecord/queueRecord.vue'),
+    meta: {
+      title: '排队记录'
+    }
   }
 ]
