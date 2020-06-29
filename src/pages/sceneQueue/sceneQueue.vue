@@ -2,12 +2,12 @@
   <div class="wbg">
     <div class="content-list wbg normal-padding" style="position: relative;">
       <div class="normal-shadow" style="padding: 20px 10px">
-        <div class="title-font mb-10">观音岩大队</div>
+        <div class="title-font mb-10">{{DDdata.name}}</div>
         <div class="normal-font mb-10">
-          <van-icon name="phone-o" class="mr-5" />电话：023-11511
+          <van-icon name="phone-o" class="mr-5" />电话：{{DDdata.mobile}}
         </div>
         <div class="normal-font">
-          <van-icon name="location-o" class="mr-5" />地址：你好，世界！！
+          <van-icon name="location-o" class="mr-5" />地址：{{DDdata.address}}
         </div>
       </div>
     </div>
@@ -15,18 +15,18 @@
       办事人信息
     </div>
     <van-field class="rightcell"
-      v-model="inputForm.username"
+      v-model="inputForm.name"
       required
       label="用户名"
       placeholder="请输入用户名"
     />
     <van-field class="rightcell"
-      v-model="inputForm.username"
+      v-model="inputForm.mobile"
       label="手机号"
       placeholder="请输入手机号"
     />
     <van-field class="rightcell"
-      v-model="inputForm.username"
+      v-model="inputForm.id_card"
       label="身份证号码"
       placeholder="请输入身份证号码"
     />
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { user_orderScene_create_order, manage_stationGet_detail } from '@/api/apis'
 export default {
   name: 'index',
   components: {
@@ -45,20 +46,51 @@ export default {
   },
   data () {
     return {
-      inputForm: {}
+      inputForm: {
+        order_type: '2',
+        station_id: '',
+        id_card: '',
+        mobile: '',
+        name: ''
+      },
+      DDdata: {}
     }
   },
   created () {
-    
+    this.inputForm.station_id = this.$route.query.station_id
+    console.log(this.$route)
+    this.getData(this.$route.query.station_id)
   },
   
   methods: {
     nowQueue(){
-      this.$router.push({
-        name: 'appointmentQueueDetail',
-        params: ''
+      this.inputForm.station_id = this.$route.query.station_id
+      if(!this.inputForm.name){
+        this._global.toast('fail','请填写用户名')
+        return
+      }
+      user_orderScene_create_order(this.inputForm).then((res)=>{
+        console.log(res)
+        if(!res.errCode){
+          this.$router.push({
+            name: 'appointmentQueueDetail',
+            params: {
+              id: res.data.data
+            }
+          })
+        }else{
+          this._global.toast('error', res.data.message)
+        }
       })
-    }
+      
+    },
+    getData(id){
+      manage_stationGet_detail({
+        id: id
+      }).then((res)=>{
+        this.DDdata = res.data.data
+      })
+    },
   }
 }
 </script>

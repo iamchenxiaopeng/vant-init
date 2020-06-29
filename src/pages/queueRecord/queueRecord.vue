@@ -8,24 +8,23 @@
         <span  @click="changeNav(2)" :class="[targetNav == 2 ? 'halfbottom': '','navspan']">排队记录</span>
       </div>
     </div>
-    <div class="content-list normal-shadow wbg small-padding br5 mt-10" v-for="item in 8" :key="item">
+    <div @click="toDetail(item.id)" class="content-list normal-shadow wbg small-padding br5 mt-10" v-for="(item, index) in dataList" :key="index" style="position: relative">
       <div class="title-font">
-        <span class="bigfont" style="color: #4E85EE">01号</span>
-        <span class="fr igcolor" style="font-weight: normal">已过号</span>
+        <span class="bigfont" style="color: #4E85EE">{{item.number_str}}号</span>
+        <span class="fr igcolor" style="font-weight: normal">{{item.status_str}}</span>
+        <img src="../../assets/images/work/finish.png" class="finishbox">
       </div>
       <div class="aline mb-10"></div>
-      <van-cell class="mycell" title="办事支队" value="观音岩支大队" />
-      <van-cell class="mycell" title="地址" value="观音岩支大队" />
-      <van-cell class="mycell" title="取号时间" value="观音岩支大队" />
-      <!-- <div class="normal-font">电话：023-11511</div>
-      <div class="normal-font">电话：023-11511</div>
-      <div class="normal-font">地址：你好，世界！！</div> -->
+      <van-cell class="mycell" title="办事支队" :value="item.station_name" />
+      <van-cell class="mycell" title="地址" :value="item.station_address" />
+      <van-cell class="mycell" title="取号时间" :value="item.appoint_region" />
     </div>
     
   </div>
 </template>
 
 <script>
+import { user_orderOrder_list } from '@/api/apis'
 export default {
   components: {
     
@@ -33,19 +32,38 @@ export default {
   data () {
     return {
       targetNav: 2,
+      dataCount: 10,
+      dataList: [],
     }
   },
   created () {
-    
+    this.getData()
   },
   
   methods: {
     changeTab(e){
       console.log(e)
     },
+    getData(){
+      user_orderOrder_list().then((res)=>{
+        console.log(res)
+        if (!res.data.errCode){
+          this.dataCount = res.data.data.count
+          this.dataList = res.data.data.list
+        } else {
+          this._global.toast('error',res.data.message)
+        }
+      })
+    },
     changeNav(index){
       this.targetNav = index
-    }
+    },
+    toDetail(id){
+      this.$router.push({
+        name: 'appointmentQueueDetail',
+        params: {id}
+      })
+    },
   }
 }
 </script>
@@ -86,5 +104,14 @@ export default {
 .navspan {
   font-size: 15px;
   border-bottom: 2px solid #fff;
+}
+.finishbox {
+  width: 2.5rem;
+  height: 2.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 9;
+  opacity: .8;
 }
 </style>

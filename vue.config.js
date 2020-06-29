@@ -3,14 +3,16 @@ const path = require('path')
 const resolve = dir => {
   return path.join(__dirname, dir)
 }
-
-// 项目部署基础
 const BASE_URL = process.env.NODE_ENV === 'production'
-  ? '/dist'
-  : '/'
+? '/wzjxj/index/'
+: '/'
 
 module.exports = {
   publicPath: BASE_URL,
+  //测试环境
+  outputDir: '../../1work/nianjian/public/asset/wzjxj/index',
+  indexPath: '../../../../src/view/wzjxj/default/index/index.html',
+  filenameHashing:true,
   lintOnSave: false,
 
   chainWebpack: config => {
@@ -25,18 +27,7 @@ module.exports = {
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
   devServer: {
     port: 666,
-    https: false,
-    hotOnly: false,
-    proxy: {
-      '/api': {
-        target: 'https://helloxiaopeng.com/',
-        ws: true,
-        changOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    }
+    proxy: 'http://chaotu.weiwutong.dev.cwsaas.com'
   },
 
   pluginOptions: {

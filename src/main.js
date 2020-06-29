@@ -7,7 +7,23 @@ import 'postcss-pxtorem'
 import '@/assets/iconfont/iconfont.css'
 import myGlobal from '@/utils/global'
 import VueWechatTitle from 'vue-wechat-title'
-import { Button,ImagePreview,Toast,Icon,Overlay,Cell, CellGroup, Dialog,Tab, Tabs,NavBar,NoticeBar,Field,DatetimePicker,Popup } from 'vant';
+import {
+  Button,
+  ImagePreview,
+  Toast,
+  Icon,
+  Overlay,
+  Cell,
+  CellGroup,
+  Dialog,
+  Tab,
+  Tabs,
+  NavBar,
+  NoticeBar,
+  Field,
+  DatetimePicker,
+  Popup
+} from 'vant';
 
 Vue.use(VueWechatTitle)
 Vue.use(Button)
@@ -31,8 +47,8 @@ Vue.filter('getDate', function (value) {
   let nowTime = new Date(value)
   let t = {
     y: nowTime.getFullYear(),
-    m: nowTime.getMonth()<9?'0'+(nowTime.getMonth()+1):(nowTime.getMonth()+1),
-    d: nowTime.getDate()<10?'0'+nowTime.getDate():nowTime.getDate(),
+    m: nowTime.getMonth() < 9 ? '0' + (nowTime.getMonth() + 1) : (nowTime.getMonth() + 1),
+    d: nowTime.getDate() < 10 ? '0' + nowTime.getDate() : nowTime.getDate(),
   }
   return t.y + '-' + t.m + '-' + t.d
 })
@@ -51,5 +67,4 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-Vue.prototype.$myGlobal = myGlobal
-
+Vue.prototype._global = myGlobal

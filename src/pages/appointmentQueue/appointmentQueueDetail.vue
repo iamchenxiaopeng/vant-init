@@ -5,15 +5,15 @@
     </header>
     <div class="top-head normal-padding wbg">
       <div style="text-align: right;font-size: 12px">
-        <span class="hujiao">
-          <span style="color: #fff;vertical-align: minddle">等待呼叫</span>
+        <span class="hujiao" @click="getData">
+          <span style="color: #fff;vertical-align: minddle">{{orderData.status_str}}</span>
           <van-icon name="replay" style="color: #fff;vertical-align: minddle;font-size: 12px;margin-top: -2px;margin-left: 2px" />
         </span>
       </div>
-      <h2 style="text-align: center;color: #F5A50A;font-size: 35px" class="mt-10">022&nbsp;号</h2>
+      <h2 style="text-align: center;color: #F5A50A;font-size: 35px" class="mt-10">{{orderData.number_str}}&nbsp;号</h2>
       <p class="txt-center mt-10">
         <van-icon  style="color: #F5A50A" name="underway-o" class="mr-5 n-color" />
-        还有 <span class="fontw" style="color: #F5A50A">10</span> 人在您面前等候服务...
+        还有 <span class="fontw" style="color: #F5A50A">{{orderData.wait_count}}</span> 人在您面前等候服务...
       </p>
       <div style="border-top: 1px dashed #D7D7D7;margin: 20px;width: 100%"></div>
       <!-- <p class="mt-10 igcolor">
@@ -23,29 +23,30 @@
         请您在休息区耐心等候，注意显示屏呼叫号码信息，过号无效，请重新排号，谢谢合作！
       </van-notice-bar>
     </div>
-    <div class="number-detail wbg mt-10" style="padding: .8rem; padding-top: 3.6rem">
+    <div class="number-detail wbg mt-10" style="padding: .8rem; padding-top: 3.9rem">
       <div class="titlebox title-font mb-20">排号详情</div>
       <p class="mt-5">
-        <van-cell class="mycell" title="办事支队：" value="观音岩支大队" />
+        <van-cell class="mycell" title="办事支队：" :value="orderData.station_name" />
       </p>
       <p class="mt-5">
-        <van-cell class="mycell" title="电话" value="观音岩支大队" />
+        <van-cell class="mycell" title="电话" :value="orderData.station_mobile" />
       </p>
       <p class="mt-5">
-        <van-cell class="mycell" title="地址：" value="观音岩支大队" />
+        <van-cell class="mycell" title="地址：" :value="orderData.station_address" />
       </p>
       <p class="mt-5">
-        <van-cell class="mycell" title="预约时段：" value="观音岩支大队" />
+        <van-cell class="mycell" title="预约时段：" :value="orderData.appoint_region" />
       </p>
       <p class="mt-5">
-        <van-cell class="mycell" title="预约人：" value="观音岩支大队" />
+        <van-cell class="mycell" title="预约人：" :value="orderData.name" />
       </p>
-      <div class="my-button" style="margin: 40px auto;display: block;width: 4.5rem" @click="toCancel">取消排队</div>
+      <div class="my-button" style="margin: 40px auto;display: block;width: 4.5rem" v-if="orderData.status_str == '等待叫号'" @click="toCancel">取消排队</div>
     </div>
   </div>
 </template>
 
 <script>
+import { user_orderOrder_detail, user_orderCancel_order } from '@/api/apis'
 export default {
   name: 'index',
   components: {
@@ -53,21 +54,51 @@ export default {
   },
   data () {
     return {
-      showNotice: true
+      showNotice: true,
+      orderData: {}
     }
   },
   created () {
-    
+    console.log(this.$route)
+    this.getData()
   },
   
   methods: {
     toCancel(){
       this.$dialog.confirm({
-        message: '没人每月仅可重新预约5次，你确定要作废重新取号吗？',
+        message: '每人每月仅可重新预约5次，你确定要作废重新取号吗？',
       }).then(()=>{
         console.log('确定')
+        user_orderCancel_order({
+          id: this.$route.params.id
+        }).then((res)=>{
+          if(!res.data.errCode){
+            this._global.toast('success', '取消成功')
+            this.getData()
+          }else{
+            this._global.toast('error', res.data.message)
+          }
+        })
       }).catch(()=>{
         console.log('取消')
+      })
+    },
+    getData(){
+      this.$toast.loading({
+        forbidClick: true,
+        duration: 0,
+        message: '加载中...'
+      })
+      user_orderOrder_detail({
+        id: this.$route.params.id
+      }).then((res)=>{
+        console.log(res)
+        this.$toast.clear()
+        if(!res.data.errCode){
+          this.orderData = res.data.data
+        }else{
+          this._global.toast('fail',res.data.message)
+        }
       })
     }
   }
@@ -103,7 +134,7 @@ export default {
 }
 .top-head {
   width: 8.48rem;
-  height: 6.93rem;
+  height: 7.23rem;
   position: absolute;
   left: 0;
   right: 0;

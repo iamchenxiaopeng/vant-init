@@ -1,5 +1,10 @@
-const myGlobal = {}
+import {
+  successToast, 
+  failToast,
+  toast
+} from './toast'
 
+const myGlobal = {}
 /**
  *
  * 获取当前url参数
@@ -184,11 +189,9 @@ const getLocal = (key) => {
 const dealTE = (expression, answer1, answer2) => {
   return expression ? answer1 : answer2
 }
-
-// 用来清空json
 const clearJson = (json, reload) => {
   if (!json) {
-    throw new Error('未填写json')
+    return
   }
   for (let key in json) {
     json[key] = ''
@@ -213,21 +216,15 @@ const isOffice = (name) => {
   return false
 }
 
-/**
- * 判断文件是office文件还是pdf文件（用于文件预览区分pdf还是office）
- * 三元表达式
- * @param {*} name 带后缀的文件名
- * @returns boolean
- */
 const isOfficeAndPdf = (name) => {
   if (!name) {
-    alert('没有文件！')
-    return
+    console.log('无值')
   }
   let nameSplit = name.toString().split('.')
   let suffix = nameSplit[nameSplit.length - 1]
   console.log(suffix)
   if (suffix === 'pdf') {
+    console.log('pdf')
     return true
   }
   if (officeSuffixArr.includes(suffix.toLowerCase())) {
@@ -236,7 +233,7 @@ const isOfficeAndPdf = (name) => {
   return false
 }
 
-// 用于替换或者删除一段文字中被匹配上的那部分
+// 字符串删除、替换
 const strDelete = (str, deletestr, replacestr) => {
   if (replacestr) {
     return str.replace(deletestr, replacestr)
@@ -244,8 +241,54 @@ const strDelete = (str, deletestr, replacestr) => {
   return str.replace(deletestr, '')
 }
 
-const uploadURL = ''
+const toastSuccess = (duration) => {
+  successToast('成功！')
+}
+const toastMsuccess = (duration) => {
+  successToast('操作成功！')
+}
+
+// 一个json给另一个json赋值
+const jsonAssign = (target, dataJson) => {
+  if (!target || !dataJson) return
+  for (let key in target){
+    target[key] = dataJson[key]
+  }
+}
+
+// 规范时间
+const normtime = (time, fullTime) => {
+  let getDate = new Date(time)
+  let o = {
+    'Y': getDate.getFullYear(),
+    'M': (getDate.getMonth() + 1) < 10 ? ('0' + (getDate.getMonth() + 1)) : (getDate.getMonth() + 1),
+    'd': getDate.getDate() < 10 ? ('0' + getDate.getDate()) : getDate.getDate(),
+    'w': getDate.getDay() < 10 ? ('0' + getDate.getDay()) : getDate.getDay(),
+    'h': getDate.getHours() < 10 ? ('0' + getDate.getHours()) : getDate.getHours(),
+    'm': getDate.getMinutes() < 10 ? ('0' + getDate.getMinutes()) : getDate.getMinutes(),
+    's': getDate.getSeconds() < 10 ? ('0' + getDate.getSeconds()) : getDate.getSeconds(),
+  };
+  if(fullTime){
+    return o.Y + '-' + o.M + '-' + o.d + '-' + o.h + '-' + o.m + '-' + o.s
+  }
+  return o.Y + '-' + o.M + '-' + o.d
+}
+
+const dealHttp = (res, callback) => {
+  if(!res.data.errCode){
+    callback(res)
+  }else{
+    failToast(res.data.message)
+  }
+}
+
+
+const previewURL = document.domain.indexOf('localhost') !== -1 ? '' : '/web/api/export'
+let uRole = () => localStorage.getItem('user')
+const onDayMill = 1000 * 60 * 60 * 24
+
 myGlobal.window = window
+myGlobal.previewURL = previewURL
 myGlobal.c = myconsole
 myGlobal.deepClone = deepClone
 myGlobal.deepClone2 = deepClone2
@@ -255,8 +298,15 @@ myGlobal.getLocal = getLocal
 myGlobal.dealTE = dealTE
 myGlobal.getUrlParam = getUrlParam
 myGlobal.clearJson = clearJson
-myGlobal.uploadURL = uploadURL
 myGlobal.isOffice = isOffice
 myGlobal.isOfficeAndPdf = isOfficeAndPdf
 myGlobal.strDelete = strDelete
+myGlobal.toastSuccess = toastSuccess
+myGlobal.toastMsuccess = toastMsuccess
+myGlobal.uRole = uRole
+myGlobal.onDayMill = onDayMill
+myGlobal.jsonAssign = jsonAssign
+myGlobal.normtime = normtime
+myGlobal.dealHttp = dealHttp
+myGlobal.toast = toast
 export default myGlobal
