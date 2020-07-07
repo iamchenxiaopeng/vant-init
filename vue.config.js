@@ -4,7 +4,7 @@ const resolve = dir => {
   return path.join(__dirname, dir)
 }
 const BASE_URL = process.env.NODE_ENV === 'production'
-? '/wzjxj/index/'
+? '/asset/wzjxj/index/'
 : '/'
 
 module.exports = {

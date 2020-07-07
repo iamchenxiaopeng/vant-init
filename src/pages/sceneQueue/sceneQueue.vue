@@ -57,9 +57,9 @@ export default {
     }
   },
   created () {
-    this.inputForm.station_id = this.$route.query.station_id
+    this.inputForm.station_id = this.$route.query.id
     console.log(this.$route)
-    this.getData(this.$route.query.station_id)
+    this.getData(this.$route.query.id)
   },
   
   methods: {
@@ -88,7 +88,9 @@ export default {
       manage_stationGet_detail({
         id: id
       }).then((res)=>{
-        this.DDdata = res.data.data
+        this._global.dealHttp(res, ()=>{
+          this.DDdata = res.data.data
+        })
       })
     },
   }

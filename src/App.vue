@@ -34,6 +34,7 @@ export default {
     font-family:PingFang SC;
     font-weight: normal;
     color:#333333;
+    min-height: 100%;
 }
 
 </style>
@@ -45,7 +46,8 @@ export default {
   left: 0;
   top: 0;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+  overflow: scroll;
   transition: all .5s cubic-bezier(.55,0,.1,1);
 }
 .slide-left-enter, .slide-right-leave-active {

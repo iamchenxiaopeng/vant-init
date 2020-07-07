@@ -7,7 +7,7 @@
       <div style="text-align: right;font-size: 12px">
         <span class="hujiao" @click="getData">
           <span style="color: #fff;vertical-align: minddle">{{orderData.status_str}}</span>
-          <van-icon name="replay" style="color: #fff;vertical-align: minddle;font-size: 12px;margin-top: -2px;margin-left: 2px" />
+          <van-icon name="replay" style="color: #fff;vertical-align: minddle;font-size: 10px!important;margin-top: -2px;margin-left: 2px" />
         </span>
       </div>
       <h2 style="text-align: center;color: #F5A50A;font-size: 35px" class="mt-10">{{orderData.number_str}}&nbsp;号</h2>
@@ -16,9 +16,6 @@
         还有 <span class="fontw" style="color: #F5A50A">{{orderData.wait_count}}</span> 人在您面前等候服务...
       </p>
       <div style="border-top: 1px dashed #D7D7D7;margin: 20px;width: 100%"></div>
-      <!-- <p class="mt-10 igcolor">
-        请您在休息区耐心等候，注意显示屏呼叫号码信息，过号无效，请重新排号，谢谢合作！
-      </p> -->
       <van-notice-bar class="mynotice" wrapable :scrollable="false">
         请您在休息区耐心等候，注意显示屏呼叫号码信息，过号无效，请重新排号，谢谢合作！
       </van-notice-bar>

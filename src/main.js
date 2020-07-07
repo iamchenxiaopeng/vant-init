@@ -22,7 +22,8 @@ import {
   NoticeBar,
   Field,
   DatetimePicker,
-  Popup
+  Popup,
+  List
 } from 'vant';
 
 Vue.use(VueWechatTitle)
@@ -41,6 +42,7 @@ Vue.use(NoticeBar)
 Vue.use(Field)
 Vue.use(DatetimePicker)
 Vue.use(Popup)
+Vue.use(List)
 
 Vue.filter('getDate', function (value) {
   if (!value) return ''

@@ -9,7 +9,7 @@
       <div class="normal-font">
         <van-icon name="phone-o" class="mr-5" />地址：{{DDdata.address}}
       </div>
-      <van-icon style="position: absolute;right: 20px;top: 100px;font-size: 1rem;color: #999" name="arrow" />
+      <van-icon class="picfont" name="arrow" />
     </div>
     <van-cell @click="showDate=true" class="col-normal-padding mt-10" title="预约日期" is-link :value="currentDate|getDate" />
     <van-popup v-model="showDate"
@@ -195,5 +195,12 @@ export default {
 .chooseActive {
   background: #4E85EE;
   color: #fff;
+}
+.picfont {
+  position: absolute;
+  right: 20px;
+  top: 100px;
+  font-size: 1rem!important;
+  color: #999
 }
 </style>

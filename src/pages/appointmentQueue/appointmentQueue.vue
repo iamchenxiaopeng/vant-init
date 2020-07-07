@@ -3,19 +3,25 @@
     <van-nav-bar class="mb-5"
       :title="pageTitle"
       right-text="排队记录"
-      left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
     />
-    <div class="content-list wbg" @click="toDetail(item)" v-for="(item, index) in DDlist" :key="index">
-      <div class="title-font mb-10">{{item.name}}</div>
-      <div class="normal-font mb-10">
-        <van-icon name="location-o" class="mr-5" />电话：{{item.mobile}}
+    <!-- <van-list style="height: 100%;overflow: hidden"
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="loadMore"
+    >
+      <div class="content-list wbg" @click="toDetail(item)" v-for="(item, index) in DDlist" :key="index">
+        <div class="title-font mb-10">{{item.name}}</div>
+        <div class="normal-font mb-10">
+          <van-icon name="location-o" class="mr-5" />电话：{{item.mobile}}
+        </div>
+        <div class="normal-font mb-10">
+          <van-icon name="phone-o" class="mr-5" />地址：{{item.address}}
+        </div>
       </div>
-      <div class="normal-font mb-10">
-        <van-icon name="phone-o" class="mr-5" />地址：{{item.address}}
-      </div>
-    </div>
+    </van-list> -->
     <van-dialog style="max-height: 80%;overflow: scroll" :showCancelButton="false" :confirmButtonText="'我已知晓'" v-model="showNotice" title="活动规则" show-cancel-button>
         <div style="overflow: scroll;height: 300px;padding: 10px;padding-top: 10px" :lockScroll="false">
             <p class="textleft" style="font-size: 14px;margin-top: 5px">1、办事人员在万州交巡警微信公众号选择办事大队，选择预约日期及时段，预约人信息（姓名、手机号、身份证号）。;</p>
@@ -25,6 +31,22 @@
             <p class="textleft" style="font-size: 14px;margin-top: 5px">5、预约人需提前预约时段5分钟至预约办理点，等待叫号系统呼叫后进行业务办理，过号无效，再次排队需重新取号。</p>
         </div>
     </van-dialog>
+    <van-list
+  v-model="loading"
+  :finished="finished"
+  finished-text="没有更多了"
+  @load="onLoad"
+>
+  <div class="content-list wbg" @click="toDetail(item)" v-for="(item, index) in DDlist" :key="index">
+        <div class="title-font mb-10">{{item.name}}</div>
+        <div class="normal-font mb-10">
+          <van-icon name="location-o" class="mr-5" />电话：{{item.mobile}}
+        </div>
+        <div class="normal-font mb-10">
+          <van-icon name="phone-o" class="mr-5" />地址：{{item.address}}
+        </div>
+      </div>
+</van-list>
     <!-- <van-overlay :show="showNotice">
         <div class="wrapper" @click.stop>
             <div class="block">
@@ -56,6 +78,10 @@ export default {
       pageTitle: '违法处理预约排队系统',
       DDlist: [],
       showNotice: true,
+      list: [],
+      loading: false,
+      finished: false,
+      targetPage: 1
     }
   },
   created () {
@@ -85,7 +111,24 @@ export default {
         name: 'queueRecord',
         params: ''
       })
-    }
+    },
+    onLoad() {
+      this.targetPage = this.targetPage + 1
+      console.log('到底了')
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1);
+        }
+
+        // 加载状态结束
+        this.loading = false;
+
+        // 数据全部加载完成
+        if (this.list.length >= 40) {
+          this.finished = true;
+        }
+      }, 1000);
+    },
   }
 }
 </script>

@@ -1,5 +1,9 @@
 import axios from 'axios'
 // import { Spin } from 'iview'
+import Vue from 'vue'
+import { Toast } from 'vant';
+
+Vue.use(Toast)
 
 class HttpRequest {
   constructor (baseUrl = baseUrl) {
@@ -19,6 +23,7 @@ class HttpRequest {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
       // Spin.hide()
+      Toast.clear()
     }
   }
   interceptors (instance, url) {
@@ -27,6 +32,10 @@ class HttpRequest {
       // 添加全局的loading...
       if (!Object.keys(this.queue).length) {
         // Spin.show() // 不建议开启，因为界面不友好
+        Toast.loading({
+          message: '加载中...',
+          duration: 0
+      })
       }
       this.queue[url] = true
       return config
