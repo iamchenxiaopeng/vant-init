@@ -7,7 +7,7 @@
       <div style="text-align: right;font-size: 12px">
         <span class="hujiao" @click="getData">
           <span style="color: #fff;vertical-align: minddle">{{orderData.status_str}}</span>
-          <van-icon name="replay" style="color: #fff;vertical-align: minddle;font-size: 10px!important;margin-top: -2px;margin-left: 2px" />
+          <van-icon name="replay" style="color: #fff;vertical-align: minddle;margin-top: -2px;margin-left: 2px" />
         </span>
       </div>
       <h2 style="text-align: center;color: #F5A50A;font-size: 35px" class="mt-10">{{orderData.number_str}}&nbsp;号</h2>

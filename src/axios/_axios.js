@@ -33,9 +33,9 @@ class HttpRequest {
       if (!Object.keys(this.queue).length) {
         // Spin.show() // 不建议开启，因为界面不友好
         Toast.loading({
-          message: '加载中...',
-          duration: 0
-      })
+            message: '加载中...',
+            duration: 0
+        })
       }
       this.queue[url] = true
       return config

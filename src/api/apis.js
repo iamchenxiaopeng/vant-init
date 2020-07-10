@@ -64,7 +64,7 @@ export const user_orderCancel_order = (params) => {
   })
 }
 
-// 获取大队详情
+// 获取大队详情 (平台)
 export const manage_stationGet_detail = (params) => {
   return axios.request({
     url: '/wzjxj/manage_station/get_detail',
@@ -73,3 +73,11 @@ export const manage_stationGet_detail = (params) => {
   })
 }
 
+// 获取大队详情 (手机)
+export const commonDetail = (params) => {
+  return axios.request({
+    url: '/wzjxj/common/detail',
+    method: 'get',
+    params
+  })
+}

@@ -134,15 +134,12 @@ export default {
       })
     },
     toCommit(){
-      this.$toast.loading({
-        forbidClick: true,
-      });
+      
       if(this.submitValid()){
         return
       }
       this.formData.appoint_day = this._global.normtime(this.currentDate)
       user_orderCreate_order(this.formData).then((res)=>{
-        this.$toast.clear()
         this._global.dealHttp(res,(res)=>{
           this._global.toast('success', '预约成功')
           setTimeout(() => {

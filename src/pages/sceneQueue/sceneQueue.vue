@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { user_orderScene_create_order, manage_stationGet_detail } from '@/api/apis'
+import { user_orderScene_create_order, commonDetail } from '@/api/apis'
 export default {
   name: 'index',
   components: {
@@ -57,9 +57,9 @@ export default {
     }
   },
   created () {
-    this.inputForm.station_id = this.$route.query.id
+    this.inputForm.station_id = this.$route.query.station_id
     console.log(this.$route)
-    this.getData(this.$route.query.id)
+    this.getData(this.$route.query.station_id)
   },
   
   methods: {
@@ -70,7 +70,6 @@ export default {
         return
       }
       user_orderScene_create_order(this.inputForm).then((res)=>{
-        console.log(res)
         if(!res.errCode){
           this.$router.push({
             name: 'appointmentQueueDetail',
@@ -85,7 +84,7 @@ export default {
       
     },
     getData(id){
-      manage_stationGet_detail({
+      commonDetail({
         id: id
       }).then((res)=>{
         this._global.dealHttp(res, ()=>{
