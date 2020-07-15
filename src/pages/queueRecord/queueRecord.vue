@@ -5,9 +5,10 @@
         <span  @click="changeNav(1)" :class="[targetNav == 1 ? 'halfbottom': '','navspan']">排队取号</span>
       </div>
       <div style="flex: 1;text-align: center">
-        <span  @click="changeNav(2)" :class="[targetNav == 2 ? 'halfbottom': '','navspan']">排队记录</span>
+        <span  @click="changeNav(2)" :class="[targetNav == 1 ? '': 'halfborder', 'navspan']">排队记录</span>
       </div>
     </div>
+    <h2 v-if="dataList.length==0" style="text-align: center">暂无数据</h2>
     <div @click="toDetail(item.id)" class="content-list normal-shadow wbg small-padding br5 mt-10" v-for="(item, index) in dataList" :key="index" style="position: relative">
       <div class="title-font">
         <span class="bigfont" style="color: #4E85EE">{{item.number_str}}号</span>
@@ -20,9 +21,10 @@
         <img src="../../assets/images/work/finish.png" v-if="item.status == 4" class="finishbox">
       </div>
       <div class="aline mb-10"></div>
-      <van-cell class="mycell" title="办事支队" :value="item.station_name" />
-      <van-cell class="mycell" title="地址" :value="item.station_address" />
-      <van-cell class="mycell" title="取号时间" :value="item.appoint_region" />
+      <van-cell :border="false" class="mycell nomargin nopadding" title="办事支队" :value="item.station_name" />
+      <van-cell :border="false" class="mycell nomargin nopadding" title="地址" :value="item.station_address" />
+      <van-cell :border="false" v-if="item.order_type == 1" class="mycell nomargin nopadding" title="预约时段" :value="item.appoint_region" />
+      <van-cell :border="false" v-if="item.order_type == 2" class="mycell nomargin nopadding" title="取号时间" :value="item.appoint_region" />
     </div>
     
   </div>
@@ -121,5 +123,11 @@ export default {
   right: 0;
   z-index: 9;
   opacity: .8;
+}
+.halfborder {
+  position:relative
+}
+.halfborder:before {
+  content:""; position:absolute; left:20%; bottom:-5px; width:60%; height:3px; background-color:#4E85EE;
 }
 </style>

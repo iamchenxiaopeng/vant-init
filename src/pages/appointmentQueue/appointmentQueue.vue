@@ -24,8 +24,8 @@
     </van-list> -->
     <van-dialog style="max-height: 80%;overflow: scroll" :showCancelButton="false" :confirmButtonText="'我已知晓'" v-model="showNotice" title="活动规则" show-cancel-button>
         <div style="overflow: scroll;height: 300px;padding: 10px;padding-top: 10px" :lockScroll="false">
-            <p class="textleft" style="font-size: 14px;margin-top: 5px">1、办事人员在万州交巡警微信公众号选择办事大队，选择预约日期及时段，预约人信息（姓名、手机号、身份证号）。;</p>
-            <p class="textleft" style="font-size: 14px;margin-top: 5px">2、预约取号仅限预约人本人办事使用，他人不能使用。-2020年7月3日;</p>
+            <p class="textleft" style="font-size: 14px;margin-top: 5px">1、办事人员在万州交巡警微信公众号选择办事大队，选择预约日期及时段，预约人信息（姓名、手机号、身份证号）。</p>
+            <p class="textleft" style="font-size: 14px;margin-top: 5px">2、预约取号仅限预约人本人办事使用，他人不能使用。</p>
             <p class="textleft" style="font-size: 14px;margin-top: 5px">3、每人每天同一窗口业务只能预约一个号，但可以取消预约后重新预约，重新预约不能超过5次。</p>
             <p class="textleft" style="font-size: 14px;margin-top: 5px">4、每月5 次爽约将被记入黑名单（平台页面有取消选项，可以提前取消），将暂停一个月预约服务。</p>
             <p class="textleft" style="font-size: 14px;margin-top: 5px">5、预约人需提前预约时段5分钟至预约办理点，等待叫号系统呼叫后进行业务办理，过号无效，再次排队需重新取号。</p>
@@ -39,11 +39,11 @@
 >
   <div class="content-list wbg" @click="toDetail(item)" v-for="(item, index) in DDlist" :key="index">
         <div class="title-font mb-10">{{item.name}}</div>
-        <div class="normal-font mb-10">
-          <van-icon name="location-o" class="mr-5" />电话：{{item.mobile}}
+        <div class="normal-font mb-5">
+          <van-icon name="phone-o" class="mr-5" />电话：{{item.mobile}}
         </div>
-        <div class="normal-font mb-10">
-          <van-icon name="phone-o" class="mr-5" />地址：{{item.address}}
+        <div class="normal-font mb-5">
+          <van-icon name="location-o" class="mr-5" />地址：{{item.address}}
         </div>
       </div>
 </van-list>
@@ -69,15 +69,14 @@
 import pageHeader from '@/components/pageHeader'
 import { commonAll_police_station } from '@/api/apis'
 export default {
-  name: 'index',
   components: {
     pageHeader
   },
   data () {
     return {
-      pageTitle: '违法处理预约排队系统',
+      pageTitle: '选择预约大队',
       DDlist: [],
-      showNotice: true,
+      showNotice: false,
       list: [],
       loading: false,
       finished: false,
@@ -85,10 +84,50 @@ export default {
     }
   },
   created () {
+    // alert(window.location.href)
+    let station_id = ''
+    station_id = parseInt(this.getUrlParam('station_id'))
+    // alert(station_id)
+    if(station_id){
+      if (/iPhone|mac|iPod|iPad/i.test(navigator.userAgent)) {
+          location.href = window.location.protocol + '//' + location.host + '/wzjxj/index/#' + '/sceneQueue?station_id=' + station_id
+      }else {
+          this.$router.push({
+            path: '/sceneQueue',
+            query: {
+              station_id: station_id
+            }
+          });
+      }
+    }
     this.getData()
+    if(!localStorage.getItem('show_notice')){
+      this.showNotice = true
+      localStorage.setItem('show_notice', 'true')
+
+    }else {
+      this.showNotice = false
+    }
   },
   
   methods: {
+    getUrlParam (paraName) {
+      var url = window.location.href
+      var arrObj = url.split('?')
+      if (arrObj.length > 1) {
+          var arrPara = arrObj[1].split('&')
+          var arr
+          for (var i = 0; i < arrPara.length; i++) {
+          arr = arrPara[i].split('=')
+          if (arr != null && arr[0] == paraName) {
+              return arr[1]
+          }
+          }
+          return ''
+      } else {
+          return ''
+      }
+    },
     getData(){
       commonAll_police_station({type: 'appoint'}).then((res)=>{
         console.log(res)
@@ -114,7 +153,6 @@ export default {
     },
     onLoad() {
       this.targetPage = this.targetPage + 1
-      console.log('到底了')
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
           this.list.push(this.list.length + 1);

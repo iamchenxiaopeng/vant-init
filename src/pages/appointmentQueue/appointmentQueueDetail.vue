@@ -11,31 +11,41 @@
         </span>
       </div>
       <h2 style="text-align: center;color: #F5A50A;font-size: 35px" class="mt-10">{{orderData.number_str}}&nbsp;号</h2>
-      <p class="txt-center mt-10">
+      <p class="txt-center mt-10" v-if="orderData.status != 4 && orderData.status != 5 && orderData.status != 6 && orderData.status != 7 && orderData.status_str != '已取消'" >
         <van-icon  style="color: #F5A50A" name="underway-o" class="mr-5 n-color" />
         还有 <span class="fontw" style="color: #F5A50A">{{orderData.wait_count}}</span> 人在您面前等候服务...
       </p>
-      <div style="border-top: 1px dashed #D7D7D7;margin: 20px;width: 100%"></div>
-      <van-notice-bar class="mynotice" wrapable :scrollable="false">
+      <div style="border-top: 1px dashed #D7D7D7;margin: 20px 0;width: 100%"></div>
+      <van-notice-bar class="mynotice" wrapable :scrollable="false" style="line-height: 16px">
         请您在休息区耐心等候，注意显示屏呼叫号码信息，过号无效，请重新排号，谢谢合作！
       </van-notice-bar>
     </div>
-    <div class="number-detail wbg mt-10" style="padding: .8rem; padding-top: 3.9rem">
+    <div class="number-detail wbg" style="padding: .8rem; padding-top: 3.9rem">
       <div class="titlebox title-font mb-20">排号详情</div>
-      <p class="mt-5">
-        <van-cell class="mycell" title="办事支队：" :value="orderData.station_name" />
+      <p style="margin: 0">
+        <van-cell class="mycell nomargin nopadding" title="办事支队：" :value="orderData.station_name" />
       </p>
-      <p class="mt-5">
-        <van-cell class="mycell" title="电话" :value="orderData.station_mobile" />
+      <p style="margin: 0">
+        <van-cell class="mycell nomargin nopadding" title="电话" :value="orderData.station_mobile" />
       </p>
-      <p class="mt-5">
-        <van-cell class="mycell" title="地址：" :value="orderData.station_address" />
+      <p style="margin: 0">
+        <van-cell class="mycell nomargin nopadding" title="地址：" :value="orderData.station_address" />
       </p>
-      <p class="mt-5">
-        <van-cell class="mycell" title="预约时段：" :value="orderData.appoint_region" />
+      <p style="margin: 0">
+        <van-cell class="mycell nomargin nopadding" v-if="orderData.order_type == 1" title="预约时段：" :value="orderData.appoint_region" />
+        <van-cell class="mycell nomargin nopadding" v-if="orderData.order_type == 2" title="取号时间：" :value="orderData.appoint_region" />
       </p>
-      <p class="mt-5">
-        <van-cell class="mycell" title="预约人：" :value="orderData.name" />
+      <p style="margin: 0"> 
+        <van-cell class="mycell nomargin nopadding" title="预约人：" :value="orderData.name" />
+      </p>
+      <p style="margin: 0">
+        <van-cell class="mycell nomargin nopadding" title="联系电话：" :value="orderData.mobile" />
+      </p>
+      <p style="margin: 0">
+        <van-cell class="mycell nomargin nopadding" title="身份证号码：" :value="orderData.id_card" />
+      </p>
+      <p style="margin: 0">
+        <van-cell class="mycell nomargin nopadding" title="排号时间：" :value="orderData.create_time_str" />
       </p>
       <div class="my-button" style="margin: 40px auto;display: block;width: 4.5rem" v-if="orderData.status_str == '等待叫号'" @click="toCancel">取消排队</div>
     </div>
@@ -57,6 +67,9 @@ export default {
   },
   created () {
     console.log(this.$route)
+    if(this.$route.params.id){
+      localStorage.setItem('dd_detail', this.$route.params.id)
+    }
     this.getData()
   },
   
@@ -65,9 +78,8 @@ export default {
       this.$dialog.confirm({
         message: '每人每月仅可重新预约5次，你确定要作废重新取号吗？',
       }).then(()=>{
-        console.log('确定')
         user_orderCancel_order({
-          id: this.$route.params.id
+          id: this.$route.params.id || localStorage.getItem('dd_detail')
         }).then((res)=>{
           if(!res.data.errCode){
             this._global.toast('success', '取消成功')
@@ -81,16 +93,15 @@ export default {
       })
     },
     getData(){
-      this.$toast.loading({
-        forbidClick: true,
-        duration: 0,
-        message: '加载中...'
-      })
+      // this.$toast.loading({
+      //   forbidClick: true,
+      //   duration: 0,
+      //   message: '加载中...'
+      // })
       user_orderOrder_detail({
-        id: this.$route.params.id
+        id: this.$route.params.id || localStorage.getItem('dd_detail')
       }).then((res)=>{
-        console.log(res)
-        this.$toast.clear()
+        // this.$toast.clear()
         if(!res.data.errCode){
           this.orderData = res.data.data
         }else{

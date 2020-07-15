@@ -81,3 +81,12 @@ export const commonDetail = (params) => {
     params
   })
 }
+
+// 获取预约限制时间
+export const commonLimit_day = (params) => {
+  return axios.request({
+    url: '/wzjxj/common/limit_day',
+    method: 'get',
+    params
+  })
+}
