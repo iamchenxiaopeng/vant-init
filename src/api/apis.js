@@ -90,3 +90,12 @@ export const commonLimit_day = (params) => {
     params
   })
 }
+
+// 获取预约时间 列表
+export const commonDay_info = (params) => {
+  return axios.request({
+    url: '/wzjxj/common/day_info',
+    method: 'get',
+    params
+  })
+}

@@ -22,7 +22,7 @@
         </div>
       </div>
     </van-list> -->
-    <van-dialog style="max-height: 80%;overflow: scroll" :showCancelButton="false" :confirmButtonText="'我已知晓'" v-model="showNotice" title="活动规则" show-cancel-button>
+    <van-dialog style="max-height: 80%;overflow: scroll" :showCancelButton="false" :confirmButtonText="'我已知晓'" v-model="showNotice" title="预约须知" show-cancel-button>
         <div style="overflow: scroll;height: 300px;padding: 10px;padding-top: 10px" :lockScroll="false">
             <p class="textleft" style="font-size: 14px;margin-top: 5px">1、办事人员在万州交巡警微信公众号选择办事大队，选择预约日期及时段，预约人信息（姓名、手机号、身份证号）。</p>
             <p class="textleft" style="font-size: 14px;margin-top: 5px">2、预约取号仅限预约人本人办事使用，他人不能使用。</p>

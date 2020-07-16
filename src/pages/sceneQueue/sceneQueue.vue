@@ -74,27 +74,23 @@ export default {
   },
   mounted () {
     let that = this
-    if (!(/iPhone|mac|iPod|iPad/i.test(navigator.userAgent))) {
-          const innerHeight = window.innerHeight;
-          window.addEventListener('resize', () => {
-            const newInnerHeight = window.innerHeight;
-            if (innerHeight > newInnerHeight) {
-              // 键盘弹出事件处理
-              
-            } else {
-              // 键盘收起事件处理
-              that.isShowButton = true
-            }
-          });
-        } else {
-          window.addEventListener('focusin', () => {
-            // 键盘弹出事件处理
-          });
-          window.addEventListener('focusout', () => {
-            // 键盘收起事件处理
-            that.isShowButton = true
-          });
-        }
+  const innerHeight = window.innerHeight;
+  window.addEventListener('resize', () => {
+    const newInnerHeight = window.innerHeight;
+    if (innerHeight > newInnerHeight) {
+      // 键盘弹出事件处理
+    } else {
+      // 键盘收起事件处理
+      that.isShowButton = true
+    }
+  });
+  window.addEventListener('focusin', () => {
+    // 键盘弹出事件处理
+  });
+  window.addEventListener('focusout', () => {
+    // 键盘收起事件处理
+    that.isShowButton = true
+  });
   },
   methods: {
     hideButton(){

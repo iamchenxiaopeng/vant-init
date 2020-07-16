@@ -18,14 +18,21 @@
       position="bottom"
       :style="{ height: '30%' }"
     >
-      <van-datetime-picker style="width: 10rem"
+      <!-- <van-datetime-picker style="width: 10rem"
         v-model="currentDate"
         :min-date="minDate"
         :max-date="limitDate"
         type="date"
         title="选择年月日"
+        @change="confirmChoose"
         @confirm="confirmChoose"
         @cancel="showDate = false"
+      /> -->
+      <van-picker
+        title="选择日期"
+        show-toolbar
+        :columns="columns"
+        @confirm="confirmChoose"
       />
     </van-popup>
     <div class="tiemchoose flex-container wbg">
@@ -69,7 +76,7 @@
 </template>
 
 <script>
-import { commonTime_region, user_orderCreate_order, commonLimit_day } from '@/api/apis'
+import { commonTime_region, user_orderCreate_order, commonLimit_day, commonDay_info } from '@/api/apis'
 export default {
   name: 'index',
   components: {
@@ -77,6 +84,7 @@ export default {
   },
   data () {
     return {
+      columns: [],
       isShowButton: true,
       minDate: new Date((new Date().getTime() + 1000*60*60*24)),
       limitDate: new Date(),
@@ -95,11 +103,37 @@ export default {
         appoint_time_region: '',
         belong_region: ''
       },
+      dayarr: []
     }
   },
   created () {
-    commonLimit_day().then((res)=>{
-      this.limitDate = new Date(new Date().getTime() + (this._global.onDayMill * parseInt(res.data.data.forward)))
+    this.dayarr = []
+    this.columns = []
+    // commonLimit_day().then((res)=>{
+    //   this.limitDate = new Date(new Date().getTime() + (this._global.onDayMill * parseInt(res.data.data.forward)))
+    // })
+    commonDay_info().then((res)=>{
+      console.log(res)
+      let week = '一'
+      res.data.data.forEach((item, index) => {
+        this.dayarr.push(item.day)
+        if(item.week_info == 1){
+          week = '一'
+        }else if(item.week_info == 2){
+          week = '二'
+        }else if(item.week_info == 3){
+          week = '三'
+        }else if(item.week_info == 4){
+          week = '四'
+        }else if(item.week_info == 5){
+          week = '五'
+        }else if(item.week_info == 6){
+          week = '六'
+        }else if(item.week_info == 0){
+          week = '日'
+        }
+        this.columns.push(item.day + ' ' + '星期' + week)
+      });
     })
     if(this.$route.params.id){
       this.DDdata = this.$route.params
@@ -116,27 +150,23 @@ export default {
 
   mounted () {
     let that = this
-    if (!(/iPhone|mac|iPod|iPad/i.test(navigator.userAgent))) {
-          const innerHeight = window.innerHeight;
-          window.addEventListener('resize', () => {
-            const newInnerHeight = window.innerHeight;
-            if (innerHeight > newInnerHeight) {
-              // 键盘弹出事件处理
-              
-            } else {
-              // 键盘收起事件处理
-              that.isShowButton = true
-            }
-          });
-        } else {
-          window.addEventListener('focusin', () => {
-            // 键盘弹出事件处理
-          });
-          window.addEventListener('focusout', () => {
-            // 键盘收起事件处理
-            that.isShowButton = true
-          });
-        }
+  const innerHeight = window.innerHeight;
+  window.addEventListener('resize', () => {
+    const newInnerHeight = window.innerHeight;
+    if (innerHeight > newInnerHeight) {
+      // 键盘弹出事件处理
+    } else {
+      // 键盘收起事件处理
+      that.isShowButton = true
+    }
+  });
+  window.addEventListener('focusin', () => {
+    // 键盘弹出事件处理
+  });
+  window.addEventListener('focusout', () => {
+    // 键盘收起事件处理
+    that.isShowButton = true
+  });
   },
   methods: {
     hideButton(){
@@ -153,16 +183,16 @@ export default {
     },
     getTimeList(isfirst){
       this.timeList = []
-      this.$toast.loading({
-        duration: 0,
-        forbidClick: true,
-        message: '加载中...'
-      });
+      // this.$toast.loading({
+      //   duration: 0,
+      //   forbidClick: true,
+      //   message: '加载中...'
+      // });
       commonTime_region({
         day: this._global.normtime(this.currentDate),
         station_id: this.$route.params.id || localStorage.getItem('dd_id')
       }).then((res)=>{
-        this.$toast.clear();
+        // this.$toast.clear();
         this._global.dealHttp(res,(res)=>{
           this.timeList = res.data.data
         })
@@ -172,7 +202,12 @@ export default {
       })
     },
     confirmChoose(e){
-      this.getTimeList()
+      this.dayarr.forEach((item)=>{
+        if(e.indexOf(item)!= -1){
+          this.currentDate = item
+          this.getTimeList()
+        }
+      })
       this.showDate = false
     },
     toDDlist(){
