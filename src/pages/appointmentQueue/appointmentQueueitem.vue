@@ -32,6 +32,7 @@
         title="选择日期"
         show-toolbar
         :columns="columns"
+        item-height="30"
         @confirm="confirmChoose"
       />
     </van-popup>
@@ -114,6 +115,9 @@ export default {
     // })
     commonDay_info().then((res)=>{
       console.log(res)
+      if(res.data.data && res.data.data[0] && res.data.data[0].day){
+        this.currentDate = new Date(res.data.data[0].day)
+      }
       let week = '一'
       res.data.data.forEach((item, index) => {
         this.dayarr.push(item.day)
@@ -133,19 +137,22 @@ export default {
           week = '日'
         }
         this.columns.push(item.day + ' ' + '星期' + week)
+        
       });
+
+      if(this.$route.params.id){
+        this.DDdata = this.$route.params
+        this.formData.station_id = this.$route.params.id
+        localStorage.setItem('dd_id', this.$route.params.id)
+        localStorage.setItem('dd_data', JSON.stringify(this.$route.params))
+        this.getTimeList('first')
+      }else{
+        this.formData.station_id = localStorage.getItem('dd_id')
+        this.DDdata = JSON.parse(localStorage.getItem('dd_data')) || {}
+        this.getTimeList('first')
+      }
     })
-    if(this.$route.params.id){
-      this.DDdata = this.$route.params
-      this.formData.station_id = this.$route.params.id
-      localStorage.setItem('dd_id', this.$route.params.id)
-      localStorage.setItem('dd_data', JSON.stringify(this.$route.params))
-      this.getTimeList('first')
-    }else{
-      this.formData.station_id = localStorage.getItem('dd_id')
-      this.DDdata = JSON.parse(localStorage.getItem('dd_data')) || {}
-      this.getTimeList('first')
-    }
+    
   },
 
   mounted () {
