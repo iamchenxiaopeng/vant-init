@@ -1,0 +1,443 @@
+@small-font: 12px;
+@normal-font: 14px;
+@middle-font: 18px;
+@defaultcolor: #333;
+@primarycolor: #2d8cf0;
+
+
+body,
+div,
+span,
+ul,
+dl,
+dt,
+dd,
+li,
+a,
+textarea,
+button,
+input,
+select {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-weight: 500;
+  font-family: 'PingFangSC-Regular';
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+img {
+  object-fit: cover;
+}
+.img-fit-fill {
+  object-fit: fill;
+}
+html {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  color: @defaultcolor;
+  background: #F0F0F0;
+  max-width: 100%;
+}
+
+.mt-5 {
+  margin-top: .05rem;
+}
+.mt-10 {
+  margin-top: .1rem;
+}
+.mt-15 {
+  margin-top: .15rem;
+}
+.mt-20 {
+  margin-top: .2rem;
+}
+.mt-25 {
+  margin-bottom: .25rem;
+}
+
+.mb-5 {
+  margin-bottom: .05rem;
+}
+.mb-10 {
+  margin-bottom: .1rem;
+}
+.mb-15 {
+  margin-bottom: .15rem;
+}
+.mb-20 {
+  margin-bottom: .2rem;
+}
+.mb-25 {
+  margin-bottom: .25rem;
+}
+.fs-10 {
+  font-size: .1rem;
+}
+.fs-12 {
+  font-size: .12rem;
+}
+.fs-14 {
+  font-size: .14rem;
+}
+.fs-16 {
+  font-size: .16rem;
+}
+.fs-17 {
+  font-size: .17rem;
+}
+.fs-18 {
+  font-size: .18rem;
+}
+.fs-20 {
+  font-size: .1rem;
+}
+.pd-20 {
+  padding: .2rem;    
+}
+
+.autoheight {
+  width: 100%;
+  height: auto;
+}
+
+.line {
+  width: 100%;
+  border-bottom: 1px solid #000;
+}
+
+.fullbox-min-width {
+  min-width: 1080px;
+}
+
+.normalfont {
+  font-size: @normal-font;
+  color: @defaultcolor;
+}
+
+
+//常用
+.pointer {
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
+.min-width {
+  min-width: 1280px;
+}
+
+.center-text {
+  text-align: center!important;
+}
+
+.left-text {
+  text-align: left!important;
+}
+
+.normal-shadow {
+  box-shadow: 0 0 2px 1px #999999;
+}
+
+.fullbg {
+  background-size: 100% 100%!important;
+} 
+
+.small-borderradius {
+  border-radius: 5px 5px;
+}
+
+.normal-borderradius {
+  border-radius: 10px 10px;
+}
+
+.clear:after {
+  content: '';
+  height: 0;
+  visibility: hidden;
+  display: block;
+  clear: both;
+}
+
+.clear {
+  zoom: 1;
+}
+
+.full-line {
+  width: 100%;
+}
+
+// 字体底部显示
+.font-bottom {
+  display: table-cell;
+  vertical-align: bottom;
+}
+
+.vtcm {
+  vertical-align: middle;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+//fixed布局
+.fixed-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+//未知尺寸图片自动填满div（宽或高100%），父元素必须相对定位：position:relative;
+.auto-img {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  top: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  left: -9999px;
+}
+
+.autoimg-h {
+  width: 100%;
+  height: auto;
+}
+
+.maximg img {
+  max-width: 100%!important;
+  max-height: 1.8rem!important;
+  height: auto!important;
+}
+/* 文字不能被选择 */
+.cannotselect {
+  -webkit-user-select: none;
+
+  -moz-user-select: none;
+
+  -ms-user-select: none;
+
+  user-select: none;
+}
+
+// 单行文本溢出隐藏
+.hidetext {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+//多2行文本溢出隐藏
+.hidetest2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+
+//多3行文本溢出隐藏
+.hidetests {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.full-block {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+// margin
+.small-margin {
+  margin: 10px;
+}
+
+.normal-margin {
+  margin: 20px;
+}
+
+.small-margin-col {
+  margin: 10px auto;
+}
+
+.normal-margin-col {
+  margin: 20px auto;
+}
+
+.small-margin-row {
+  margin: 0 10px;
+}
+
+.normal-margin-row {
+  margin: 0 20px;
+}
+
+.center-margin {
+  margin: 0 auto;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+// flex布局
+.flex {
+    display: flex;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+//竖直方向
+.col-flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+//flex子元素居中
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-center-wrap {
+  .flex-center();
+  flex-wrap: wrap;
+}
+
+.flex-around {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.flex-left {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-right {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+.flex1 {
+  flex: 1;
+}
+
+
+.text-indent2 {
+  text-indent: .2rem;
+  line-height: .3rem;
+}
+
+// 单行文本溢出隐藏
+.text-over-hide {
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+// 多行文本溢出隐藏
+.text-over-more {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+// 常用动画 
+.show-anime {
+  animation: normalshow .5s;
+}
+
+@keyframes normalshow {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+//从右边出来
+.show-from-right-anime {
+  animation: rightshow .5s;
+}
+//从左边出来
+.show-from-left-anime {
+  animation: leftshow .2s;
+}
+//从上边出来
+.show-from-top-anime {
+  animation: topshow .3s;
+}
+@keyframes topshow {
+  0% {
+    opacity: .5;
+    transform: translateY(-100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes leftshow {
+  0% {
+    opacity: .5;
+    transform: translateX(-100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes rightshow {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
